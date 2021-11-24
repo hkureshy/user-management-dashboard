@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Paper,
   TableContainer,
@@ -57,13 +57,13 @@ const TableHeader = (props) => {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            sortDirection={orderBy === headCell.id ? order : false}
+            sortDirection={orderBy === headCell.id ? order || 'asc' : false}
             align={headCell.id === 'actions' ? 'center' : 'left'}
           >
             { headCell.id === 'username' ? 
               <TableSortLabel
                 active={active}
-                direction={orderBy === headCell.id ? order : 'asc'}
+                direction={order || 'asc'}
                 onClick={createSortHandler(headCell.id)}
               >
                 {headCell.label}
@@ -80,17 +80,20 @@ const TableHeader = (props) => {
 const UsersList = ({
   loading,
   users,
+  user,
   deleteUser,
   removeUser,
-  sortUsers
+  sortUsers,
+  setUser
 }) => {
   const [order, setOrder] = useState('');
   const [orderBy, setOrderBy] = useState('username');
   const [active, setActive] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const [user, setUser] = useState(-1);
   const [open, handleOpen] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -140,11 +143,17 @@ const UsersList = ({
                       <TableCell>{row.address?.city}</TableCell>
                       <TableCell>{row.email}</TableCell>
                       <TableCell align='center'>
-                        <Link className='pointer text-decor-none' to={`user/${row.id}`}>
-                          <Edit color='primary' fontSize='small' />
-                        </Link>
+                        <Edit
+                          className='pointer'
+                          color='primary'
+                          fontSize='small'
+                          onClick={() => {
+                            setUser(row)
+                            navigate(`/user/${row.id}`)
+                          }}
+                        />
                         <Delete
-                          className='pointer text-decor-none'
+                          className='pointer'
                           color='secondary'
                           fontSize='small'
                           onClick={() => {

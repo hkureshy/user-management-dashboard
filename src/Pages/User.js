@@ -9,20 +9,16 @@ const User = ({
   users,
   user,
   getUsers,
-  getUser,
   saveUser,
   updateUser
 }) => {
   const params = useParams();
 
   useEffect(() => {
-    if (params.id) {
-      getUser(params.id);
-    }
     if (users.length === 0) {
       getUsers();
     }
-  }, [params, users, getUsers, getUser])
+  }, [params, users, getUsers])
 
   return (
     <Container fixed>

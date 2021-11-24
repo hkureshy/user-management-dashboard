@@ -7,14 +7,10 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   if (action) {
     switch (action.type) {
-      case types.GET_USER_SUCCESS:
+      case types.SET_USER:
         return {
           ...state,
           user: action.payload
-        };
-      case types.GET_USER_FAILURE:
-        return {
-          ...initialState
         };
       default:
         return state;

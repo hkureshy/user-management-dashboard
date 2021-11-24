@@ -8,10 +8,12 @@ const Users = ({
   loading,
   originalCount,
   users,
+  user,
   getUsers,
   deleteUser,
   removeUser,
-  sortUsers
+  sortUsers,
+  setUser
 }) => {
 
   useEffect(() => {
@@ -26,9 +28,11 @@ const Users = ({
       <UsersList
         loading={loading}
         users={users}
+        user={user}
         deleteUser={deleteUser}
         removeUser={removeUser}
         sortUsers={sortUsers}
+        setUser={setUser}
       />
     </Container>
   );
