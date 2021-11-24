@@ -20,3 +20,10 @@ export const deleteUser = (id) => {
 
   return api.delete(options);
 };
+
+export const removeUser = (id) => (dispatch) => {
+  return dispatch({
+    type: types.REMOVE_USER,
+    payload: id
+  });
+};

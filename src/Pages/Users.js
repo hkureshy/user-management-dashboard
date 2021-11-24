@@ -5,9 +5,11 @@ import { UserActions } from '../Components/Users/UserActions';
 import { UsersList } from '../Components/Users/UsersList';
 
 const Users = ({
+  loading,
   users,
   getUsers,
-  deleteUser
+  deleteUser,
+  removeUser
 }) => {
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const Users = ({
   return (
     <Container>
       <UserActions />
-      <UsersList users={users} deleteUser={deleteUser} />
+      <UsersList loading={loading} users={users} deleteUser={deleteUser} removeUser={removeUser} />
     </Container>
   );
 }

@@ -13,6 +13,8 @@ import {
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
+import { ConfirmDialog } from './ConfirmDialog';
+
 const headCells = [
   {
     id: 'id',
@@ -72,11 +74,18 @@ const EnhancedTableHead = (props) => {
   );
 }
 
-const UsersList = ({ users }) => {
+const UsersList = ({
+  loading,
+  users,
+  deleteUser,
+  removeUser
+}) => {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('username');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
+  const [id, setID] = useState(-1);
+  const [open, handleOpen] = useState(false);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -107,7 +116,7 @@ const UsersList = ({ users }) => {
           <TableBody>
             { users
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row, index) => {
+              .map((row) => {
                 return (
                   <TableRow
                     hover
@@ -120,8 +129,18 @@ const UsersList = ({ users }) => {
                     <TableCell>{row.address?.city}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell align='center'>
-                      <Link className='pointer text-decor-none' to={`user/${row.id}`}><Edit color='primary' fontSize='small' /></Link>
-                      <Delete className='pointer text-decor-none' color='secondary' fontSize='small' />
+                      <Link className='pointer text-decor-none' to={`user/${row.id}`}>
+                        <Edit color='primary' fontSize='small' />
+                      </Link>
+                      <Delete
+                        className='pointer text-decor-none'
+                        color='secondary'
+                        fontSize='small'
+                        onClick={() => {
+                          setID(row.id)
+                          handleOpen(true)
+                        }}
+                      />
                     </TableCell>
                   </TableRow>
                 );
@@ -142,6 +161,13 @@ const UsersList = ({ users }) => {
         page={page}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+      <ConfirmDialog
+        id={id}
+        open={open}
+        deleteUser={deleteUser}
+        removeUser={removeUser}
+        handleOpen={handleOpen}
       />
     </Paper>
   );

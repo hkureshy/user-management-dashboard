@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 
 import { Users } from '../../Pages/Users';
 
-import { getUsers, deleteUser } from '../Actions/Users';
+import { getUsers, deleteUser, removeUser } from '../Actions/Users';
 
 const mapStateToProps = state => {
   return {
@@ -15,7 +15,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getUsers: bindActionCreators(getUsers, dispatch),
-    deleteUser: bindActionCreators(deleteUser, dispatch)
+    deleteUser: bindActionCreators(deleteUser, dispatch),
+    removeUser: bindActionCreators(removeUser, dispatch)
   }
 }
 
