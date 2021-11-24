@@ -10,6 +10,7 @@ const User = ({
   users,
   user,
   getUsers,
+  setUser,
   saveUser,
   updateUser
 }) => {
@@ -19,7 +20,7 @@ const User = ({
     if (originalCount === 0) {
       getUsers();
     }
-  }, [params, originalCount, getUsers])
+  }, [originalCount, getUsers])
 
   return (
     <Container fixed>
@@ -29,7 +30,13 @@ const User = ({
         </Typography>
       </Box>
       { !loading ?
-        <UserForm users={users} user={user} saveUser={saveUser} updateUser={updateUser} /> :
+        <UserForm
+          users={users}
+          user={user}
+          setUser={setUser}
+          saveUser={saveUser}
+          updateUser={updateUser}
+        /> :
         <CircularProgress color='inherit' size={25} />
       }
     </Container>

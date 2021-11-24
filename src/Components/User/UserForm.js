@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Box, Grid, TextField, Button, CircularProgress } from '@mui/material';
 import { Formik } from 'formik';
@@ -8,11 +8,19 @@ import { initialValues, schema } from '../../Common/Rules/User';
 const UserForm = ({
   users,
   user,
+  setUser,
   saveUser,
   updateUser
 }) => {
   const params = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (users.length > 0 && !user.id) {
+      const u = users.find((u) => u.id === parseInt(params.id));
+      setUser(u);
+    }
+  }, [users, user, params, setUser]);
 
   const onSubmit = useCallback(async (values) => {
     if (params.id) {
@@ -30,7 +38,7 @@ const UserForm = ({
 
   return (
     <Formik
-      initialValues={params.id ? user : initialValues}
+      initialValues={user.id ? user : initialValues}
       validationSchema={schema}
       onSubmit={onSubmit}
       enableReinitialize
