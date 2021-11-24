@@ -18,9 +18,9 @@ const UserForm = ({
     if (params.id) {
       await updateUser(values);
     } else {
-      const id = Math.max.apply(Math, users.map((u) => u.id));
+      const id = users.length > 0 ? Math.max.apply(Math, users.map((u) => u.id)) : 1;
       await saveUser({
-        id: id + 1,
+        id: id < 11 ? 11 : id + 1,
         ...values,
         username: ''
       });
@@ -81,7 +81,7 @@ const UserForm = ({
             <Grid item xs={12}>
               <Box display='flex' justifyContent='flex-end'>
                 <Link className='text-decor-none mr-1' to='/'>
-                  <Button variant='outlined'>Cancel</Button>
+                  <Button color='secondary' variant='outlined'>Cancel</Button>
                 </Link>
                 <Button
                   type='submit'

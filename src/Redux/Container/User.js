@@ -9,6 +9,7 @@ import { saveUser, updateUser } from '../Actions/User';
 const mapStateToProps = state => {
   return {
     loading: state.loadingReducer.loading,
+    originalCount: state.usersReducer.originalCount,
     users: state.usersReducer.users,
     user: state.userReducer.user
   }

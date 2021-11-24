@@ -11,7 +11,7 @@ const mapStateToProps = state => {
     loading: state.loadingReducer.loading,
     originalCount: state.usersReducer.originalCount,
     users: state.usersReducer.users,
-    user: state.usersReducer.user
+    user: state.userReducer.user
   }
 }
 

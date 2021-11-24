@@ -5,6 +5,7 @@ const ConfirmDialog = ({
   loading,
   user,
   open,
+  setUser,
   deleteUser,
   removeUser,
   handleOpen
@@ -14,8 +15,9 @@ const ConfirmDialog = ({
       await deleteUser(user.id);
     }
     removeUser(user.id);
+    setUser({});
     handleOpen(false);
-  }, [user, deleteUser, removeUser, handleOpen])
+  }, [user, setUser, deleteUser, removeUser, handleOpen])
 
   return (
     <Dialog open={open}>
@@ -28,8 +30,8 @@ const ConfirmDialog = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => handleOpen(false)}>No</Button>
-        <Button onClick={handleDelete} autoFocus disabled={loading}>
+        <Button color='primary' variant='outlined' onClick={() => handleOpen(false)}>No</Button>
+        <Button color='secondary' variant='contained' onClick={handleDelete} disabled={loading}>
           { loading && <CircularProgress color='inherit' size={25} />}
           Yes
         </Button>

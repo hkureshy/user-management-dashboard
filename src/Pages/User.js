@@ -6,6 +6,7 @@ import { UserForm } from '../Components/User/UserForm';
 
 const User = ({
   loading,
+  originalCount,
   users,
   user,
   getUsers,
@@ -15,10 +16,10 @@ const User = ({
   const params = useParams();
 
   useEffect(() => {
-    if (users.length === 0) {
+    if (originalCount === 0) {
       getUsers();
     }
-  }, [params, users, getUsers])
+  }, [params, originalCount, getUsers])
 
   return (
     <Container fixed>

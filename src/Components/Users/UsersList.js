@@ -11,6 +11,8 @@ import {
   TableSortLabel,
   TablePagination,
   Button,
+  IconButton,
+  Tooltip,
   CircularProgress
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
@@ -95,14 +97,14 @@ const UsersList = ({
 
   const navigate = useNavigate();
 
-  const handleRequestSort = (event, property) => {
+  const handleRequestSort = (e, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
     sortUsers(isAsc ? 'desc' : 'asc');
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (e, newPage) => {
     setPage(newPage);
   };
 
@@ -143,24 +145,26 @@ const UsersList = ({
                       <TableCell>{row.address?.city}</TableCell>
                       <TableCell>{row.email}</TableCell>
                       <TableCell align='center'>
-                        <Edit
-                          className='pointer'
-                          color='primary'
-                          fontSize='small'
-                          onClick={() => {
-                            setUser(row)
-                            navigate(`/user/${row.id}`)
-                          }}
-                        />
-                        <Delete
-                          className='pointer'
-                          color='secondary'
-                          fontSize='small'
-                          onClick={() => {
-                            setUser(row)
-                            handleOpen(true)
-                          }}
-                        />
+                        <Tooltip title='Edit User'>
+                          <IconButton
+                            onClick={() => {
+                              setUser(row)
+                              navigate(`/user/${row.id}`)
+                            }}
+                          >
+                            <Edit className='pointer' color='primary' fontSize='small' />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title='Delete User'>
+                          <IconButton
+                            onClick={() => {
+                              setUser(row)
+                              handleOpen(true)
+                            }}
+                          >
+                            <Delete className='pointer' color='secondary' fontSize='small' />
+                          </IconButton>
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   );
@@ -193,6 +197,7 @@ const UsersList = ({
         loading={loading}
         user={user}
         open={open}
+        setUser={setUser}
         deleteUser={deleteUser}
         removeUser={removeUser}
         handleOpen={handleOpen}
