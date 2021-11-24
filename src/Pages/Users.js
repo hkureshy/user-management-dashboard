@@ -6,6 +6,7 @@ import { UsersList } from '../Components/Users/UsersList';
 
 const Users = ({
   loading,
+  originalCount,
   users,
   getUsers,
   deleteUser,
@@ -13,11 +14,10 @@ const Users = ({
 }) => {
 
   useEffect(() => {
-    
-    if (users.length === 0) {
+    if (originalCount === 0) {
       getUsers()
     }
-  }, [users, getUsers])
+  }, [originalCount, getUsers])
 
   return (
     <Container>

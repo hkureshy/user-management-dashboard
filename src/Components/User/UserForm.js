@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import { initialValues, schema } from '../../Common/Rules/User';
 
 const UserForm = ({
+  users,
   user,
   saveUser,
   updateUser
@@ -13,14 +14,18 @@ const UserForm = ({
   const params = useParams();
   const navigate = useNavigate();
 
-  const onSubmit = useCallback(async (values, { setSubmitting, resetForm }) => {
+  const onSubmit = useCallback(async (values) => {
     if (params.id) {
       await updateUser(values);
     } else {
-      await saveUser(values);
+      const id = Math.max.apply(Math, users.map((u) => u.id));
+      await saveUser({
+        id: id + 1,
+        ...values
+      });
     }
     navigate('/');
-  }, [params, saveUser, updateUser, navigate]);
+  }, [params, users, saveUser, updateUser, navigate]);
 
   return (
     <Formik
@@ -83,7 +88,7 @@ const UserForm = ({
                   variant='contained'
                   disabled={isSubmitting}
                 >
-                  {isSubmitting && <CircularProgress color='inherit' size={25} />}
+                  {isSubmitting && <CircularProgress color='inherit' size={20} />}
                   Submit
                 </Button>
               </Box>

@@ -1,6 +1,7 @@
 import * as types from '../Actions/Types';
 
 const initialState = {
+  originalCount: 0,
   users: [],
 };
 
@@ -10,7 +11,8 @@ const usersReducer = (state = initialState, action) => {
       case types.GET_USERS_SUCCESS:
         return {
           ...state,
-          users: action.payload
+          users: action.payload,
+          originalCount: action.payload.length
         };
       case types.GET_USERS_FAILURE:
         return {
@@ -18,12 +20,12 @@ const usersReducer = (state = initialState, action) => {
         };
       case types.SAVE_USER_SUCCESS:
         return {
-          ...initialState,
+          ...state,
           users: [ ...state.users, action.payload ]
         }
       case types.UPDATE_USER_SUCCESS:
         return {
-          ...initialState,
+          ...state,
           users: state.users.map((user) => {
             if (user.id === action.payload.id) {
               return action.payload
@@ -33,7 +35,7 @@ const usersReducer = (state = initialState, action) => {
         }
       case types.REMOVE_USER:
         return {
-          ...initialState,
+          ...state,
           users: state.users.filter((user) => user.id !== action.payload)
         }
       default:

@@ -1,23 +1,24 @@
 import React, { useCallback } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, CircularProgress } from '@mui/material';
 
 const ConfirmDialog = ({
-  id,
+  loading,
+  user,
   open,
   deleteUser,
   removeUser,
   handleOpen
 }) => {
   const handleDelete = useCallback(async () => {
-    await deleteUser(id);
-    removeUser(id);
+    if (user.username) {
+      await deleteUser(user.id);
+    }
+    removeUser(user.id);
     handleOpen(false);
-  }, [id, deleteUser, removeUser, handleOpen])
+  }, [user, deleteUser, removeUser, handleOpen])
 
   return (
-    <Dialog
-      open={open}
-    >
+    <Dialog open={open}>
       <DialogTitle>
         Warning
       </DialogTitle>
@@ -28,7 +29,10 @@ const ConfirmDialog = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleOpen(false)}>No</Button>
-        <Button onClick={handleDelete} autoFocus>Yes</Button>
+        <Button onClick={handleDelete} autoFocus disabled={loading}>
+          { loading && <CircularProgress color='inherit' size={25} />}
+          Yes
+        </Button>
       </DialogActions>
     </Dialog>
   );

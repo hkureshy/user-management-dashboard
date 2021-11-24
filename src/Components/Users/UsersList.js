@@ -9,7 +9,9 @@ import {
   TableBody,
   TableCell,
   TableSortLabel,
-  TablePagination
+  TablePagination,
+  Button,
+  CircularProgress
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 
@@ -83,8 +85,8 @@ const UsersList = ({
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('username');
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(20);
-  const [id, setID] = useState(-1);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
+  const [user, setUser] = useState(-1);
   const [open, handleOpen] = useState(false);
 
   const handleRequestSort = (event, property) => {
@@ -102,8 +104,6 @@ const UsersList = ({
     setPage(0);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - users.length) : 0;
-
   return (
     <Paper>
       <TableContainer>
@@ -114,56 +114,69 @@ const UsersList = ({
             handleRequestSort={handleRequestSort}
           />
           <TableBody>
-            { users
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow
-                    hover
-                    tabIndex={-1}
-                    key={row.name}
-                  >
-                    <TableCell>{row.id}</TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.username}</TableCell>
-                    <TableCell>{row.address?.city}</TableCell>
-                    <TableCell>{row.email}</TableCell>
-                    <TableCell align='center'>
-                      <Link className='pointer text-decor-none' to={`user/${row.id}`}>
-                        <Edit color='primary' fontSize='small' />
-                      </Link>
-                      <Delete
-                        className='pointer text-decor-none'
-                        color='secondary'
-                        fontSize='small'
-                        onClick={() => {
-                          setID(row.id)
-                          handleOpen(true)
-                        }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            {emptyRows > 0 && (
-              <TableRow style={{height: (53) * emptyRows }} >
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
+            { loading && users.length === 0 ?
+              <TableRow>
+                <TableCell align='center' colSpan={7}>
+                  <CircularProgress color='inherit' size={25} />
+                </TableCell>
+              </TableRow> :
+              users.length > 0 ?
+                users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                  return (
+                    <TableRow
+                      hover
+                      tabIndex={-1}
+                      key={row.name}
+                    >
+                      <TableCell>{row.id}</TableCell>
+                      <TableCell>{row.name}</TableCell>
+                      <TableCell>{row.username}</TableCell>
+                      <TableCell>{row.address?.city}</TableCell>
+                      <TableCell>{row.email}</TableCell>
+                      <TableCell align='center'>
+                        <Link className='pointer text-decor-none' to={`user/${row.id}`}>
+                          <Edit color='primary' fontSize='small' />
+                        </Link>
+                        <Delete
+                          className='pointer text-decor-none'
+                          color='secondary'
+                          fontSize='small'
+                          onClick={() => {
+                            setUser(row)
+                            handleOpen(true)
+                          }}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  );
+                }) :
+                <TableRow>
+                  <TableCell align='center' colSpan={7}>
+                    Please
+                    <Link className='text-decor-none' to='/user'>
+                      <Button>ADD A USER</Button>
+                    </Link>
+                    to Display
+                  </TableCell>
+                </TableRow>
+            }
           </TableBody>
         </Table>
       </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[20, 30, 50]}
-        component='div'
-        count={users.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      { users.length > 0 &&
+        <TablePagination
+          rowsPerPageOptions={[15, 30, 45]}
+          component='div'
+          count={users.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      }
       <ConfirmDialog
-        id={id}
+        loading={loading}
+        user={user}
         open={open}
         deleteUser={deleteUser}
         removeUser={removeUser}
