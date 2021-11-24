@@ -21,7 +21,8 @@ const UserForm = ({
       const id = Math.max.apply(Math, users.map((u) => u.id));
       await saveUser({
         id: id + 1,
-        ...values
+        ...values,
+        username: ''
       });
     }
     navigate('/');

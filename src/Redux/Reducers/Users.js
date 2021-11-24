@@ -14,6 +14,13 @@ const usersReducer = (state = initialState, action) => {
           users: action.payload,
           originalCount: action.payload.length
         };
+      case types.SORT_USERS:
+        return {
+          ...state,
+          users: action.payload === 'asc' ?
+            state.users.sort((a, b) => (a.username > b.username) ? 1 : -1) :
+            state.users.sort((a, b) => (a.username > b.username) ? -1 : 1)
+        };
       case types.GET_USERS_FAILURE:
         return {
           ...initialState

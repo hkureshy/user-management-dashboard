@@ -17,3 +17,5 @@ export const REMOVE_USER = 'REMOVE_USER';
 
 export const LOADING = 'LOADING';
 export const LOADING_COMPLETE = 'LOADING_COMPLETE';
+
+export const SORT_USERS = 'SORT_USERS';

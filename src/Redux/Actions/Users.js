@@ -11,6 +11,13 @@ export const getUsers = () => {
   return api.get(options);
 };
 
+export const sortUsers = (direction) => (dispatch) => {
+  return dispatch({
+    type: types.SORT_USERS,
+    payload: direction
+  });
+};
+
 export const deleteUser = (id) => {
   let options = { url: `/${id}` };
   options.types = [

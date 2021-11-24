@@ -44,10 +44,11 @@ const headCells = [
   }
 ];
 
-const EnhancedTableHead = (props) => {
-  const { order, orderBy, handleRequestSort } = props;
+const TableHeader = (props) => {
+  const { order, orderBy, active, handleRequestSort, setActive } = props;
   const createSortHandler = (property) => (event) => {
     handleRequestSort(event, property);
+    setActive(true);
   };
 
   return (
@@ -61,7 +62,7 @@ const EnhancedTableHead = (props) => {
           >
             { headCell.id === 'username' ? 
               <TableSortLabel
-                active={orderBy === 'username'}
+                active={active}
                 direction={orderBy === headCell.id ? order : 'asc'}
                 onClick={createSortHandler(headCell.id)}
               >
@@ -80,10 +81,12 @@ const UsersList = ({
   loading,
   users,
   deleteUser,
-  removeUser
+  removeUser,
+  sortUsers
 }) => {
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('');
   const [orderBy, setOrderBy] = useState('username');
+  const [active, setActive] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const [user, setUser] = useState(-1);
@@ -93,6 +96,7 @@ const UsersList = ({
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
+    sortUsers(isAsc ? 'desc' : 'asc');
   };
 
   const handleChangePage = (event, newPage) => {
@@ -108,10 +112,12 @@ const UsersList = ({
     <Paper>
       <TableContainer>
         <Table size='medium'>
-          <EnhancedTableHead
+          <TableHeader
             order={order}
             orderBy={orderBy}
+            active={active}
             handleRequestSort={handleRequestSort}
+            setActive={setActive}
           />
           <TableBody>
             { loading && users.length === 0 ?
