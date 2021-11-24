@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Paper,
   TableContainer,
@@ -119,8 +120,8 @@ const UsersList = ({ users }) => {
                     <TableCell>{row.address?.city}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell align='center'>
-                      <Edit color='primary' fontSize='small' />
-                      <Delete color='secondary' fontSize='small' />
+                      <Link className='pointer text-decor-none' to={`user/${row.id}`}><Edit color='primary' fontSize='small' /></Link>
+                      <Delete className='pointer text-decor-none' color='secondary' fontSize='small' />
                     </TableCell>
                   </TableRow>
                 );

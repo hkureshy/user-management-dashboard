@@ -16,6 +16,21 @@ const usersReducer = (state = initialState, action) => {
         return {
           ...initialState
         };
+      case types.SAVE_USER_SUCCESS:
+        return {
+          ...initialState,
+          users: [ ...state.users, action.payload ]
+        }
+      case types.UPDATE_USER_SUCCESS:
+        return {
+          ...initialState,
+          users: state.users.map((user) => {
+            if (user.id === action.payload.id) {
+              return action.payload
+            }
+            return user
+          })
+        }
       default:
         return state;
     }

@@ -7,6 +7,7 @@ import { getUser, saveUser, updateUser } from '../Actions/User';
 
 const mapStateToProps = state => {
   return {
+    loading: state.loadingReducer.loading,
     user: state.userReducer.user
   }
 }

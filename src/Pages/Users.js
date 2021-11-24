@@ -6,17 +6,21 @@ import { UsersList } from '../Components/Users/UsersList';
 
 const Users = ({
   users,
-  getUsers
+  getUsers,
+  deleteUser
 }) => {
 
   useEffect(() => {
-    getUsers()
-  }, [getUsers])
+    
+    if (users.length === 0) {
+      getUsers()
+    }
+  }, [users, getUsers])
 
   return (
     <Container>
       <UserActions />
-      <UsersList users={users} />
+      <UsersList users={users} deleteUser={deleteUser} />
     </Container>
   );
 }

@@ -7,6 +7,7 @@ import { getUsers, deleteUser } from '../Actions/Users';
 
 const mapStateToProps = state => {
   return {
+    loading: state.loadingReducer.loading,
     users: state.usersReducer.users
   }
 }

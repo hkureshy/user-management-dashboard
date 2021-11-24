@@ -34,19 +34,16 @@ const api = {
     return new Promise(promise);
   },
   post: (options, params = null) => async dispatch => {
-    dispatch(loading());
     const [success, failure] = options.types;
     const promise = (resolve, reject) => {
       instance.post(options.url, params)
         .then(res => {
-          dispatch(loading_complete());
           resolve(dispatch({
             type: success,
             payload: res.data
           }))
         })
         .catch(err => {
-          dispatch(loading_complete());
           reject(dispatch({
             type: failure,
             payload: err
@@ -57,19 +54,16 @@ const api = {
     return new Promise(promise);
   },
   put: (options, params = null) => async dispatch => {
-    dispatch(loading());
     const [success, failure] = options.types;
     const promise = (resolve, reject) => {
       instance.put(options.url, params)
         .then(res => {
-          dispatch(loading_complete());
           resolve(dispatch({
             type: success,
             payload: res.data
           }))
         })
         .catch(err => {
-          dispatch(loading_complete());
           reject(dispatch({
             type: failure,
             payload: err

@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
+import { Container, Box, Typography } from '@mui/material';
 
 import { UserForm } from '../Components/User/UserForm';
 
 const User = ({
+  loading,
   user,
-  getUser
+  getUser,
+  saveUser,
+  updateUser
 }) => {
   const params = useParams();
 
@@ -18,10 +21,16 @@ const User = ({
 
   return (
     <Container fixed>
-      <Typography className='mt-2 mb-2' variant='h3'>
-        { params.id ? 'Update User' : 'New User'}
-      </Typography>
-      <UserForm user={user} />
+      { !loading &&
+        <>
+          <Box my={2}>
+            <Typography variant='h3' component='div'>
+              { params.id ? 'Update User' : 'New User'}
+            </Typography>
+          </Box>
+          <UserForm user={user} saveUser={saveUser} updateUser={updateUser} />
+        </>
+      }
     </Container>
   );
 }
